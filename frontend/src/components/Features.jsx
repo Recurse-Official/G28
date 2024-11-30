@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/Features.css';
 
 // Sample images (you can replace these with real image paths)
