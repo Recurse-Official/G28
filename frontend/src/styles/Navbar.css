@@ -1,0 +1,21 @@
+/* Navbar */
+.navbar {
+    width: 100%; /* Adjusted to 100% to ensure it takes full width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px; /* Added padding to navbar */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: white !important;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #f8c146 !important;
+}

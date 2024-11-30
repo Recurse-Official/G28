@@ -1,0 +1,55 @@
+/* Hero Section */
+.hero {
+    background: url('src\assets\Screenshot 2024-12-01 003719.png') no-repeat center center/cover;
+    height: 100vh; /* Full height of the viewport */
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    background-size: cover; /* Ensure the image covers the entire section */
+    background-position: center; /* Centers the image */
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Creative Upload Button */
+.upload-btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    background-color: #f8c146;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.upload-btn:hover {
+    background-color: #e0a900;
+    transform: scale(1.1);
+}
+
+.upload-btn:active {
+    transform: scale(0.95);
+}
+
+/* Hide default file input */
+input[type="file"] {
+    display: none;
+}

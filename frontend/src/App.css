@@ -1,0 +1,132 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+/* Base styles (for larger screens) */
+
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+}
+
+/* Hero section styles */
+.hero {
+  background: url('your-background-image.jpg') no-repeat center center/cover;
+  height: 100vh;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Features section styles */
+.features {
+  padding: 50px 20px;
+  background-color: #f8f9fa;
+}
+
+/* Add your other base styles here... */
+
+/* Responsive styles (for mobile, tablet, etc.) */
+@media (max-width: 1024px) {
+  /* Mobile and tablet styles */
+  .navbar {
+      padding: 10px 15px;
+  }
+
+  .hero h1 {
+      font-size: 2.5rem;
+  }
+
+  .feature-block {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .feature-image {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .feature-content {
+      width: 100%;
+      text-align: center;
+  }
+
+  .feature-btn {
+      width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile styles */
+  .navbar {
+      padding: 10px 10px;
+  }
+
+  .hero h1 {
+      font-size: 2rem;
+  }
+
+  .feature-block {
+      flex-direction: column;
+      width: 100%;
+  }
+
+  .feature-image {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .feature-content {
+      width: 100%;
+      text-align: center;
+  }
+
+  .feature-btn {
+      width: 80%;
+  }
+}
