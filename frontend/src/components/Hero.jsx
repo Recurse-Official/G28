@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Hero.css';
 import backgroundImage from '../assets/Screenshot 2024-12-01 003719.png';
 
 const Hero = () => {
     const [username, setUsername] = useState('');
     const [files, setFiles] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleFileChange = (event) => {
         setFiles(event.target.files);
@@ -39,11 +40,19 @@ const Hero = () => {
             } else {
                 const data = await response.json();
                 console.log('Upload success:', data);
+                setSuccessMessage('Images uploaded successfully!');
             }
         } catch (error) {
             console.error('Error during upload:', error);
         }
     };
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => setSuccessMessage(''), 5000);
+            return () => clearTimeout(timer); // Clear timer on cleanup
+        }
+    }, [successMessage]);
 
     return (
         <div
@@ -77,6 +86,7 @@ const Hero = () => {
                         Upload
                     </button>
                 </form>
+                {successMessage && <p className="success-message">{successMessage}</p>}
             </div>
         </div>
     );
