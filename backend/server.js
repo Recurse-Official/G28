@@ -3,8 +3,6 @@ const cors = require('cors');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const sharp = require('sharp');
-const fs = require('fs').promises;
-const path = require('path');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -19,9 +17,6 @@ cloudinary.config({
     api_key: '827388668912329',
     api_secret: 'LmWlhbl0GxB5srLUVtu0YKk6xOw'
 });
-
-// MongoDB connection
-
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/imageUploader')
@@ -48,6 +43,7 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // 5 MB limit
 });
 
+// Upload images endpoint
 app.post('/upload', upload.array('images'), async (req, res) => {
     const username = req.body.username;
     const jsonResponse = { username, createdAt: new Date(), images: [] };
@@ -57,10 +53,10 @@ app.post('/upload', upload.array('images'), async (req, res) => {
             const fileLastModified =
                 req.body[`lastModified_${file.originalname}`];
 
-            // Use Sharp to compress and resize image
+            // Compress image using Sharp
             const compressedImageBuffer = await sharp(file.buffer)
                 .resize(800) // Resize to width of 800px, maintain aspect ratio
-                .jpeg({ quality: 80 }) // Convert to JPEG with quality 80%
+                .jpeg({ quality: 80 })
                 .toBuffer();
 
             // Upload to Cloudinary
@@ -74,20 +70,13 @@ app.post('/upload', upload.array('images'), async (req, res) => {
                 ).end(compressedImageBuffer);
             });
 
-            // Add image URL and last modified date to JSON response
             jsonResponse.images.push({
                 url: result.secure_url,
                 lastModified: fileLastModified,
             });
         }
 
-        // Save to MongoDB
         const savedDocument = await ImageModel.create(jsonResponse);
-
-        // Write JSON response to a file (optional)
-        const filePath = path.join(__dirname, `${username}_images.json`);
-        await fs.writeFile(filePath, JSON.stringify(jsonResponse, null, 2));
-
         res.status(200).json({
             message: 'Images uploaded successfully',
             data: savedDocument,
@@ -95,6 +84,24 @@ app.post('/upload', upload.array('images'), async (req, res) => {
     } catch (error) {
         console.error('Error uploading images:', error);
         res.status(500).json({ message: 'Error uploading images', error });
+    }
+});
+
+// Fetch gallery images endpoint
+app.get('/gallery/:username', async (req, res) => {
+    const username = req.params.username;
+
+    try {
+        const userImages = await ImageModel.findOne({ username });
+
+        if (!userImages) {
+            return res.status(404).json({ message: 'No images found for this user' });
+        }
+
+        res.status(200).json({ images: userImages.images });
+    } catch (error) {
+        console.error('Error fetching images:', error);
+        res.status(500).json({ message: 'Error fetching images', error });
     }
 });
 

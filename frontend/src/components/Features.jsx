@@ -19,7 +19,7 @@ const Features = () => (
           Easily access and view your stored images and videos in a well-organized gallery.
            This feature lets you quickly browse through your memories, zoom in on photos, and relive your favorite moments with just a click.
           </p>
-          <button className="feature-btn">Explore Feature</button>
+          <button className="feature-btn">GALLERY</button>
         </div>
       </div>
       <div className="feature-block">
@@ -32,7 +32,7 @@ Effortlessly find your memories by selecting a specific date. This feature allow
 
 
           </p>
-          <button className="feature-btn">Explore Feature</button>
+          <button className="feature-btn">DATE</button>
         </div>
       </div>
       <div className="feature-block">
@@ -43,7 +43,7 @@ Effortlessly find your memories by selecting a specific date. This feature allow
            
           Our Emotion Album Display organizes your photos based on emotional expressions. With this feature, you can explore images categorized by different emotions, helping you relive moments full of joy, surprise, or even nostalgia, all in one place.
           </p>
-          <button className="feature-btn">Explore Feature</button>
+          <button className="feature-btn">EmotionGallery</button>
         </div>
       </div>
       <div className="feature-block">
@@ -54,7 +54,7 @@ Effortlessly find your memories by selecting a specific date. This feature allow
           
           Experience your photos like never before with our 360-degree view feature. Rotate, zoom in, and explore every angle of your images, giving you a more immersive and detailed perspective of your favorite memories.
           </p>
-          <button className="feature-btn">Explore Feature</button>
+          <button className="feature-btn">360</button>
         </div>
       </div>
     </div>
