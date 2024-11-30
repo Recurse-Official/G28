@@ -1,25 +1,9 @@
 /* eslint-disable no-undef */
+import React, { useState } from 'react';
 import '../styles/Hero.css';
-import backgroundImage from '../assets/Screenshot 2024-12-01 003719.png'; // Import your image here
+import backgroundImage from '../assets/Screenshot 2024-12-01 003719.png';
 
-// const Hero = () => (
-  
-    
-//     {/* Upload Button */}
-//     <label htmlFor="file-upload" className="upload-btn">
-//       Choose Files
-//     </label>
-//     <input
-//       id="file-upload"
-//       type="file"
-//       multiple
-//       style={{ display: 'none' }} // Hide default file input
-//     />
-//   </div>
-// );
-import { useState } from 'react';
-
-function Hero() {
+const Hero = () => {
     const [username, setUsername] = useState('');
     const [files, setFiles] = useState(null);
 
@@ -62,33 +46,40 @@ function Hero() {
     };
 
     return (
-        <div>
-            <h1>Image Upload</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username:
-                    <input
-                        type="text"
-                        required
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Upload Images:
-                    <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleFileChange}
-                    />
-                </label>
-                <br />
-                <button type="submit">Upload</button>
-            </form>
+        <div
+            className="hero"
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+            }}
+        >
+            <div className="hero-content">
+                <h1>Image Upload</h1>
+                <form onSubmit={handleSubmit} className="upload-form">
+                    <label>
+                        <span>Username:</span>
+                        <input
+                            type="text"
+                            required
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        <span>Upload Images:</span>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                    </label>
+                    <button type="submit" className="upload-btn">
+                        Upload
+                    </button>
+                </form>
+            </div>
         </div>
     );
-}
-
+};
 
 export default Hero;
