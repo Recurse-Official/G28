@@ -5,6 +5,7 @@ const cloudinary = require('cloudinary').v2;
 const sharp = require('sharp');
 const fs = require('fs').promises;
 const path = require('path');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 5000;
@@ -18,6 +19,27 @@ cloudinary.config({
     api_key: '827388668912329',
     api_secret: 'LmWlhbl0GxB5srLUVtu0YKk6xOw'
 });
+
+// MongoDB connection
+
+
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/imageUploader')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.error('MongoDB connection error:', error));
+
+// Define a Mongoose schema
+const imageSchema = new mongoose.Schema({
+    username: String,
+    images: [
+        {
+            url: String,
+            lastModified: String
+        }
+    ],
+    createdAt: { type: Date, default: Date.now }
+});
+const ImageModel = mongoose.model('Image', imageSchema);
 
 // Set up multer for file uploads
 const storage = multer.memoryStorage();
@@ -59,13 +81,16 @@ app.post('/upload', upload.array('images'), async (req, res) => {
             });
         }
 
-        // Write JSON response to a file
+        // Save to MongoDB
+        const savedDocument = await ImageModel.create(jsonResponse);
+
+        // Write JSON response to a file (optional)
         const filePath = path.join(__dirname, `${username}_images.json`);
         await fs.writeFile(filePath, JSON.stringify(jsonResponse, null, 2));
 
         res.status(200).json({
             message: 'Images uploaded successfully',
-            data: jsonResponse,
+            data: savedDocument,
         });
     } catch (error) {
         console.error('Error uploading images:', error);
