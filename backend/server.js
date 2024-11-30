@@ -104,6 +104,16 @@ app.get('/gallery/:username', async (req, res) => {
         res.status(500).json({ message: 'Error fetching images', error });
     }
 });
+// Fetch all data endpoint
+app.get('/all-data', async (req, res) => {
+    try {
+        const allData = await ImageModel.find(); // Retrieve all documents from the collection
+        res.status(200).json(allData); // Send the data as a JSON response
+    } catch (error) {
+        console.error('Error fetching all data:', error);
+        res.status(500).json({ message: 'Error fetching all data', error });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
