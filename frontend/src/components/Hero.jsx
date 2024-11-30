@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../styles/Hero.css';
 import backgroundImage from '../assets/Screenshot 2024-12-01 003719.png';
 
