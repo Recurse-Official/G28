@@ -34,16 +34,31 @@ const uploadImages = async (req, res) => {
             });
         }
 
-        const savedDocument = await ImageModel.create(jsonResponse);
-        res.status(200).json({
-            message: 'Images uploaded successfully',
-            data: savedDocument,
-        });
+        // Check if the username already exists
+        const existingUser = await ImageModel.findOne({ username });
+
+        if (existingUser) {
+            // Append the images data to the existing user
+            existingUser.images.push(...jsonResponse.images);
+            await existingUser.save();
+            res.status(200).json({
+                message: 'Images uploaded successfully',
+                data: existingUser,
+            });
+        } else {
+            // Create a new document for the username
+            const savedDocument = await ImageModel.create(jsonResponse);
+            res.status(200).json({
+                message: 'Images uploaded successfully',
+                data: savedDocument,
+            });
+        }
     } catch (error) {
         console.error('Error uploading images:', error);
         res.status(500).json({ message: 'Error uploading images', error });
     }
 };
+
 
 const getUserGallery = async (req, res) => {
     const username = req.params.username;
