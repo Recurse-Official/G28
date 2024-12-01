@@ -1,5 +1,5 @@
 import '../styles/Features.css';
-
+import { Link } from 'react-router-dom';
 // Sample images (you can replace these with real image paths)
 import feature1Image from '../assets/opengallery.jpg';
 import feature2Image from '../assets/date.jpg';
@@ -19,19 +19,20 @@ const Features = () => (
           Easily access and view your stored images and videos in a well-organized gallery.
            This feature lets you quickly browse through your memories, zoom in on photos, and relive your favorite moments with just a click.
           </p>
-          <button className="feature-btn">GALLERY</button>
+          <Link to="/gallery"><button className="feature-btn">GALLERY</button></Link>
         </div>
       </div>
       <div className="feature-block">
         <img className="feature-image" src={feature2Image} alt="Feature 2" />
         <div className="feature-content">
-          <h3> Select a Specific Date</h3>
+          <h3> Status</h3>
           <p className="feature-description">
           
 Effortlessly find your memories by selecting a specific date. This feature allows users to filter and view images captured on a particular day, making it easy to revisit special moments from the past.
 
 
           </p>
+          <link to="/status"></link>
           <button className="feature-btn">DATE</button>
         </div>
       </div>

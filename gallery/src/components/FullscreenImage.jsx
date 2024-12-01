@@ -1,102 +1,64 @@
-import React, { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
-const FullscreenImage = ({ image, onClose, onPrev, onNext, disablePrev, disableNext }) => {
-  const handleKeyDown = (e) => {
-    switch (e.key) {
-      case "ArrowLeft": // Left Arrow Key
-        if (!disablePrev) onPrev();
-        break;
-      case "ArrowRight": // Right Arrow Key
-        if (!disableNext) onNext();
-        break;
-      case "Escape": // Escape Key
-        onClose();
-        break;
-      default:
-        break;
+const FullscreenImage = () => {
+  const [username, setUsername] = useState("");
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const fetchImages = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.get(`http://localhost:5000/api/images/${username}`);
+      setImages(response.data.images);
+    } catch (err) {
+      setError("Failed to fetch images. Please check the username or server.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    // Attach keydown event listener
-    window.addEventListener("keydown", handleKeyDown);
-
-    // Cleanup event listener on unmount
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [disablePrev, disableNext, onPrev, onNext, onClose]); // Dependencies ensure the handler updates correctly
-
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-      }}
-      onClick={onClose}
-    >
-      <img
-        src={image}
-        alt="Fullscreen"
-        style={{
-          maxWidth: "90%",
-          maxHeight: "90%",
-          objectFit: "contain",
-        }}
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on the image
-      />
-      <button
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "10px",
-          transform: "translateY(-50%)",
-          backgroundColor: "rgba(255, 255, 255, 0.7)",
-          border: "none",
-          borderRadius: "50%",
-          width: "40px",
-          height: "40px",
-          fontSize: "18px",
-          cursor: "pointer",
-          display: disablePrev ? "none" : "block",
-        }}
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent closing
-          onPrev();
-        }}
-      >
-        ❮
-      </button>
-      <button
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: "10px",
-          transform: "translateY(-50%)",
-          backgroundColor: "rgba(255, 255, 255, 0.7)",
-          border: "none",
-          borderRadius: "50%",
-          width: "40px",
-          height: "40px",
-          fontSize: "18px",
-          cursor: "pointer",
-          display: disableNext ? "none" : "block",
-        }}
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent closing
-          onNext();
-        }}
-      >
-        ❯
-      </button>
+    <div className="container my-5">
+      <h1 className="text-center mb-4">Image Gallery</h1>
+      <div className="mb-3 d-flex justify-content-center">
+        <input
+          type="text"
+          className="form-control w-50"
+          placeholder="Enter username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <button className="btn btn-primary ms-2" onClick={fetchImages}>
+          Fetch Images
+        </button>
+      </div>
+
+      {loading && <p className="text-center">Loading...</p>}
+
+      {error && <p className="text-danger text-center">{error}</p>}
+
+      <div className="row">
+        {images.map((image) => (
+          <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={image._id}>
+            <div className="card">
+              <img
+                src={image.url}
+                className="card-img-top"
+                alt="User"
+                style={{ maxHeight: "200px", objectFit: "cover" }}
+              />
+              <div className="card-body">
+                <p className="card-text">
+                  <small>Last Modified: {image.lastModified}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

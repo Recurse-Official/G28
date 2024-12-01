@@ -20,6 +20,10 @@ app.use(express.json());
 // Routes
 app.use('/', imageRoutes);
 
+
+// Example usage of the getAllData route
+// app.get("/api/all-data", getAllData);
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

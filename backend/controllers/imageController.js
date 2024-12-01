@@ -87,8 +87,32 @@ const getAllData = async (req, res) => {
     }
 };
 
+
+const handledata =async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        // Reuse getAllData logic to fetch all data
+        const allData = await ImageModel.find();
+
+        // Find the user in the retrieved data
+        const userData = allData.find((user) => user.username === username);
+
+        if (!userData) {
+            // User not found
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // User found, return their images
+        res.status(200).json({ images: userData.images });
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        res.status(500).json({ message: "Error fetching user data", error });
+    }
+}
 module.exports = {
     uploadImages,
     getUserGallery,
-    getAllData
+    getAllData,
+    handledata
 };
