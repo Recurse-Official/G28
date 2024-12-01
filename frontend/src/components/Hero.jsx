@@ -1,10 +1,8 @@
-/* eslint-disable no-undef */
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/Hero.css';
-import backgroundImage from '../assets/Screenshot 2024-12-01 003719.png';
 
-const Hero = () => {
-    const [username, setUsername] = useState('');
+const Hero = ({ setUsername }) => {
+    const [username, setLocalUsername] = useState('');
     const [files, setFiles] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -13,13 +11,13 @@ const Hero = () => {
     };
 
     const handleSubmit = async (event) => {
+        setUsername(username);
         event.preventDefault();
         const formData = new FormData();
         formData.append('username', username);
 
         if (files) {
             Array.from(files).forEach((file) => {
-                // Add file and its last modified date to the FormData
                 formData.append('images', file);
                 formData.append(
                     `lastModified_${file.name}`,
@@ -47,20 +45,8 @@ const Hero = () => {
         }
     };
 
-    useEffect(() => {
-        if (successMessage) {
-            const timer = setTimeout(() => setSuccessMessage(''), 5000);
-            return () => clearTimeout(timer); // Clear timer on cleanup
-        }
-    }, [successMessage]);
-
     return (
-        <div
-            className="hero"
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-            }}
-        >
+        <div className="hero">
             <div className="hero-content">
                 <h1>Image Upload</h1>
                 <form onSubmit={handleSubmit} className="upload-form">
@@ -70,7 +56,7 @@ const Hero = () => {
                             type="text"
                             required
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => setLocalUsername(e.target.value)}
                         />
                     </label>
                     <label>
